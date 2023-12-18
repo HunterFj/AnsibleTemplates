@@ -1,5 +1,6 @@
 ---
-- hosts: clients
+- hosts: all
+
   become: yes
 
   tasks:
