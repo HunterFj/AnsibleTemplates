@@ -1,0 +1,12 @@
+---
+- name: Reboot Clients
+  hosts: clients
+
+  tasks:
+  - name: reboot clients
+    ansible.builtin.reboot:
+      msg: "Reboot started by Ansible"
+      pre_reboot_delay: 10
+      post_reboot_delay: 10
+      reboot_timeout: 300
+

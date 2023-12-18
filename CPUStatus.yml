@@ -1,0 +1,8 @@
+---
+- name: CPU test
+  hosts: clients
+
+  tasks:
+    - name: "Get cpu information"
+      inspur.sm.cpu_info:
+        provider: "{{ clients }}"
