@@ -1,6 +1,6 @@
 ---
 - name: CPU test
-  hosts: clients
+  hosts: all
 
   tasks:
     - name: "Get cpu information"
