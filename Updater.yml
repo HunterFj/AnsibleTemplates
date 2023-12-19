@@ -1,13 +1,40 @@
 ---
-- hosts: all
+- name: Upgrade and Reboot all RHEL and Debian systems
+  hosts: all
+  vars:
+    reboot_connect_timeout: 5
+    reboot_post_reboot_delay: 15
+    reboot_timeout: 600
 
   become: yes
 
   tasks:
     - name: Upgrade in Redhat
-      when: ansible_os_family == "Redhat"
-      yum: name=* state=latest
+      yum: 
+        name: '*' 
+        state: latest
+      when: ansible_os_family == "RedHat"
+      
 
-    - name: Upgrade in Debian
+    - name: Update repos in Debian
+      apt: 
+        update_cache: yes 
       when: ansible_os_family == "Debian"
-      apt: upgrade=dist update_cache=yes 
+
+    - name: Update all packages in Debian
+      apt:
+        name: "*"
+        state: latest
+      when: ansible_os_family == "Debian"
+
+    - name: Upgrade the OS (apt-get dist-upgrade)
+      apt:
+        upgrade: dist
+      when: ansible_os_family == "Debian"
+
+    # Reboot after upgrade
+    - name: Reboot host
+      reboot:
+        connect_timeout: "{{ reboot_connect_timeout }}"
+        post_reboot_delay: "{{ reboot_post_reboot_delay }}"
+        reboot_timeout: "{{ reboot_timeout }}"
