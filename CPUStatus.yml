@@ -5,4 +5,4 @@
   tasks:
     - name: "Get cpu information"
       inspur.sm.cpu_info:
-        provider: "{{ clients }}"
+        provider: "{{ all }}"
